@@ -12,41 +12,68 @@ class DashboardView extends GetView<DashboardController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Obx(
-        () => IndexedStack(
-          index: controller.tabIndex.value,
-          children: const [
-            HomeTabView(),
-            ListTabView(),
-            PresentationTabView(),
-            FavoritesTabView(),
-          ],
-        ),
-      ),
-      bottomNavigationBar: Obx(
-        () => Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
-              margin: const EdgeInsets.only(bottom: 20),
-              decoration: const BoxDecoration(
-                color: Color(0xFF1A1A1A),
-                borderRadius: BorderRadius.all(Radius.circular(40)),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _buildNavItem(0, 'assets/images/ic_home.png', 'Home'),
-                  _buildNavItem(1, 'assets/images/ic_ticket.png', 'Apps'),
-                  _buildNavItem(2, 'assets/images/ic_stand.png', 'Present'),
-                  _buildNavItem(3, 'assets/images/ic_fav.png', 'Favorites'),
-                ],
+      body: Stack(
+        children: [
+          Obx(
+            () => IndexedStack(
+              index: controller.tabIndex.value,
+              children: const [
+                HomeTabView(),
+                ListTabView(),
+                PresentationTabView(),
+                FavoritesTabView(),
+              ],
+            ),
+          ),
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Obx(
+              () => Container(
+                color: Colors.transparent,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 4,
+                        vertical: 6,
+                      ),
+                      margin: const EdgeInsets.only(bottom: 20),
+                      decoration: const BoxDecoration(
+                        color: Color(0xFF1A1A1A),
+                        borderRadius: BorderRadius.all(Radius.circular(40)),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          _buildNavItem(0, 'assets/images/ic_home.png', 'Home'),
+                          _buildNavItem(
+                            1,
+                            'assets/images/ic_ticket.png',
+                            'Apps',
+                          ),
+                          _buildNavItem(
+                            2,
+                            'assets/images/ic_stand.png',
+                            'Present',
+                          ),
+                          _buildNavItem(
+                            3,
+                            'assets/images/ic_fav.png',
+                            'Favorites',
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
