@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:seers_assignment/app/modules/dashboard/controllers/home_controller.dart';
 
-class HomeTabView extends StatelessWidget {
+class HomeTabView extends GetView<HomeController> {
   const HomeTabView({super.key});
 
   @override
   Widget build(BuildContext context) {
     // The main scaffold for the home tab, with a dark background.
     return Scaffold(
-      backgroundColor: const Color(0xFF1C1C1E),
+      backgroundColor: const Color(0xFF0C0E12),
       body: SafeArea(
         child: ListView(
-          padding: const EdgeInsets.symmetric(vertical: 20),
+          padding: const EdgeInsets.only(top: 20, bottom: 96),
           children: [
             const _Header(),
-            const SizedBox(height: 30),
+            const SizedBox(height: 40),
             const _SectionHeader(title: 'Featured Events'),
-            const SizedBox(height: 20),
+            const SizedBox(height: 12),
             const _FeaturedEventsCarousel(),
             const SizedBox(height: 30),
             const _SectionHeader(title: 'Featured Category'),
@@ -65,7 +67,12 @@ class _Header extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Icon(Icons.location_on, color: Colors.white, size: 24),
+              Image.asset(
+                'assets/images/ic_location.png',
+                width: 30,
+                height: 30,
+                color: Colors.white,
+              ),
               const SizedBox(width: 8),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -80,7 +87,7 @@ class _Header extends StatelessWidget {
                   ),
                   Text(
                     'Lucknow, India',
-                    style: TextStyle(color: Colors.grey[400], fontSize: 12),
+                    style: TextStyle(color: Colors.white, fontSize: 10),
                   ),
                 ],
               ),
@@ -88,19 +95,34 @@ class _Header extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           Container(
+            height: 40,
             padding: const EdgeInsets.symmetric(horizontal: 16),
             decoration: BoxDecoration(
-              color: const Color(0xFF2C2C2E),
               borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: Color(0xFF31343B), width: 1),
             ),
-            child: const TextField(
-              style: TextStyle(color: Colors.white),
-              decoration: InputDecoration(
-                icon: Icon(Icons.search, color: Colors.grey),
-                hintText: 'Search for events',
-                hintStyle: TextStyle(color: Colors.grey),
-                border: InputBorder.none,
-              ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: const [
+                Image(
+                  image: AssetImage('assets/images/ic_search.png'),
+                  width: 20,
+                  height: 20,
+                  color: Colors.grey,
+                ),
+                SizedBox(width: 12),
+                Expanded(
+                  child: TextField(
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                    decoration: InputDecoration(
+                      isCollapsed: true,
+                      hintText: 'Search for events',
+                      hintStyle: TextStyle(color: Colors.grey, fontSize: 16),
+                      border: InputBorder.none,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
@@ -119,8 +141,12 @@ class _SectionHeader extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Expanded(child: Divider(color: Colors.grey, thickness: 0.5)),
+          const SizedBox(
+            width: 52,
+            child: Divider(color: Color(0xFF31343B), thickness: 0.5),
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Text(
@@ -132,7 +158,10 @@ class _SectionHeader extends StatelessWidget {
               ),
             ),
           ),
-          const Expanded(child: Divider(color: Colors.grey, thickness: 0.5)),
+          const SizedBox(
+            width: 52,
+            child: Divider(color: Color(0xFF31343B), thickness: 0.5),
+          ),
         ],
       ),
     );
@@ -140,26 +169,32 @@ class _SectionHeader extends StatelessWidget {
 }
 
 /// FeaturedEventsCarousel: Horizontally scrolling list of featured events.
-class _FeaturedEventsCarousel extends StatelessWidget {
-  const _FeaturedEventsCarousel();
+class _FeaturedEventsCarousel extends GetView<HomeController> {
+  const _FeaturedEventsCarousel({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         SizedBox(
-          height: 250,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
+          height: 420,
+          child: PageView.builder(
+            clipBehavior: Clip.none,
+            controller: controller.featuredEventsPageController,
+            onPageChanged: controller.onFeaturedPageChanged,
             itemCount: 5,
-            padding: const EdgeInsets.symmetric(horizontal: 20),
             itemBuilder: (context, index) {
               return const _FeaturedEventCard();
             },
           ),
         ),
         const SizedBox(height: 10),
-        const _PageIndicator(pageCount: 5, currentPage: 0),
+        Obx(
+          () => _PageIndicator(
+            pageCount: 5,
+            currentPage: controller.featuredEventsCurrentPage.value,
+          ),
+        ),
       ],
     );
   }
@@ -172,16 +207,15 @@ class _FeaturedEventCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 280,
-      margin: const EdgeInsets.only(right: 16),
+      margin: const EdgeInsets.symmetric(horizontal: 8),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(16),
             child: Image.asset(
               'assets/images/image_placeholder1.png',
-              height: 180,
+              height: 360,
               width: double.infinity,
               fit: BoxFit.cover,
             ),
@@ -195,9 +229,12 @@ class _FeaturedEventCard extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          const Text(
+          Text(
             'Indira Gandhi Arena, Delhi',
-            style: TextStyle(color: Colors.grey, fontSize: 12),
+            style: TextStyle(
+              color: Colors.white.withOpacity(0.7),
+              fontSize: 12,
+            ),
           ),
         ],
       ),
@@ -217,16 +254,15 @@ class _PageIndicator extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(pageCount, (index) {
-        return Container(
-          width: 8,
+        final isSelected = index == currentPage;
+        return AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          width: isSelected ? 20 : 8,
           height: 8,
           margin: const EdgeInsets.symmetric(horizontal: 4),
           decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color:
-                index == currentPage
-                    ? const Color(0xFF9AFF00)
-                    : Colors.grey[700],
+            borderRadius: BorderRadius.circular(4),
+            color: isSelected ? const Color(0xFF9AFF00) : Color(0xFFD9D9D9),
           ),
         );
       }),
@@ -482,8 +518,8 @@ class _ArtistAvatar extends StatelessWidget {
 }
 
 /// TrendingCarousel: A carousel for trending events.
-class _TrendingCarousel extends StatelessWidget {
-  const _TrendingCarousel();
+class _TrendingCarousel extends GetView<HomeController> {
+  const _TrendingCarousel({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -491,17 +527,23 @@ class _TrendingCarousel extends StatelessWidget {
       children: [
         SizedBox(
           height: 250,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
+          child: PageView.builder(
+            clipBehavior: Clip.none,
+            controller: controller.trendingEventsPageController,
+            onPageChanged: controller.onTrendingPageChanged,
             itemCount: 5,
-            padding: const EdgeInsets.symmetric(horizontal: 20),
             itemBuilder: (context, index) {
               return const _FeaturedEventCard();
             },
           ),
         ),
         const SizedBox(height: 10),
-        const _PageIndicator(pageCount: 5, currentPage: 2),
+        Obx(
+          () => _PageIndicator(
+            pageCount: 5,
+            currentPage: controller.trendingEventsCurrentPage.value,
+          ),
+        ),
       ],
     );
   }
