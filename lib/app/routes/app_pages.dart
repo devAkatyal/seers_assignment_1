@@ -1,16 +1,16 @@
 import 'package:get/get.dart';
-import 'package:seers_assignment/app/modules/home/bindings/home_binding.dart';
-import 'package:seers_assignment/app/modules/home/views/home_view.dart';
+import 'package:seers_assignment/app/modules/dashboard/bindings/dashboard_binding.dart';
+import 'package:seers_assignment/app/modules/dashboard/views/dashboard_view.dart';
 import 'package:seers_assignment/app/routes/app_routes.dart';
 
 class AppPages {
-  static const INITIAL = Routes.HOME;
+  static const INITIAL = Routes.DASHBOARD;
 
   static final routes = [
     GetPage(
-      name: Routes.HOME,
-      page: () => const HomeView(),
-      binding: HomeBinding(),
+      name: Routes.DASHBOARD,
+      page: () => const DashboardView(),
+      binding: DashboardBinding(),
     ),
   ];
 }
