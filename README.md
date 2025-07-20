@@ -1,16 +1,20 @@
-# seers_assignment
+# 7 Seers Assignment 1
 
-7 Seers Assignment
+## Framework Versions
 
-## Getting Started
+- Flutter: 3.22.2
+- Dart: 3.4.3
 
-This project is a starting point for a Flutter application.
+## Library Versions
 
-A few resources to get you started if this is your first Flutter project:
+- get: ^4.6.5
+- flutter_layout_grid: ^2.0.5
+- cupertino_icons: ^1.0.8
+- flutter_lints: ^5.0.0
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Setup & Run Instructions
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1. Clone the repository.
+2. Ensure you have Flutter SDK installed.
+3. Run `flutter pub get` in the root directory.
+4. Run `flutter run` to start the application.
