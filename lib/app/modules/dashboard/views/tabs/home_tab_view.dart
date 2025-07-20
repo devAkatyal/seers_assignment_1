@@ -30,21 +30,21 @@ class HomeTabView extends GetView<HomeController> {
             const _UpcomingEventsCarousel(),
             const SizedBox(height: 16),
             const _SeeAllButton(),
-            const SizedBox(height: 30),
+            const SizedBox(height: 52),
             const _SectionHeader(title: 'Artists on Tixoo'),
             const SizedBox(height: 20),
             const _ArtistsCarousel(),
-            const SizedBox(height: 20),
+            const SizedBox(height: 8),
             const _SeeAllButton(text: 'All Artists'),
-            const SizedBox(height: 30),
+            const SizedBox(height: 36),
             const _SectionHeader(title: 'Trending'),
-            const SizedBox(height: 20),
-            const _TrendingCarousel(),
             const SizedBox(height: 30),
+            const _TrendingCarousel(),
+            const SizedBox(height: 48),
             const _SectionHeader(title: 'Popular Events'),
-            const SizedBox(height: 20),
+            const SizedBox(height: 36),
             const _UpcomingEventsCarousel(),
-            const SizedBox(height: 20),
+            const SizedBox(height: 48),
             const _SeeAllButton(),
           ],
         ),
@@ -651,7 +651,7 @@ class _ArtistsCarousel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 100,
+      height: 110,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: 8,
@@ -675,15 +675,51 @@ class _ArtistAvatar extends StatelessWidget {
       margin: const EdgeInsets.only(right: 12),
       child: Column(
         children: [
-          CircleAvatar(
-            radius: 35,
-            backgroundImage: AssetImage('assets/images/image_placeholder1.png'),
+          const CircleAvatar(
+            radius: 40,
+            backgroundColor: Color(0xFF99FE00),
+            child: CircleAvatar(
+              radius: 39, // 40 - 2px for border
+              backgroundImage: AssetImage(
+                'assets/images/image_placeholder1.png',
+              ),
+            ),
           ),
           const SizedBox(height: 8),
           const Text(
             'Lana Del Ray',
-            style: TextStyle(color: Colors.white, fontSize: 12),
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
+            ),
             overflow: TextOverflow.ellipsis,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// A card for the "Trending" section.
+class _TrendingEventCard extends StatelessWidget {
+  const _TrendingEventCard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(16),
+            child: Image.asset(
+              'assets/images/image_placeholder1.png',
+              height: 220,
+              width: double.infinity,
+              fit: BoxFit.cover,
+            ),
           ),
         ],
       ),
@@ -700,14 +736,14 @@ class _TrendingCarousel extends GetView<HomeController> {
     return Column(
       children: [
         SizedBox(
-          height: 250,
+          height: 240,
           child: PageView.builder(
             clipBehavior: Clip.none,
             controller: controller.trendingEventsPageController,
             onPageChanged: controller.onTrendingPageChanged,
             itemCount: 5,
             itemBuilder: (context, index) {
-              return const _FeaturedEventCard();
+              return const _TrendingEventCard();
             },
           ),
         ),
